@@ -1,0 +1,51 @@
+name: Netlify CI Doctor & Auto-Retry
+
+# This GitHub Actions workflow helps diagnose failed Netlify builds and automatically triggers a
+# re-deploy if the original deploy fails. It runs whenever a Netlify deploy workflow completes.
+#
+# To enable automatic retries, add the following secrets to your repository:
+#   - NETLIFY_AUTH_TOKEN: a personal access token created in your Netlify user settings
+#   - NETLIFY_SITE_ID: the site ID of the Netlify project (available in your Netlify dashboard)
+#
+# For information on creating Netlify tokens, see: https://docs.netlify.com/cli/get-started/#obtain-a-personal-access-token
+
+on:
+  workflow_run:
+    workflows: ["Deploy to Netlify"]
+    types:
+      - completed
+
+jobs:
+  diagnose-and-retry:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Netlify CLI and CI Doctor
+        run: |
+          npm install -g netlify-cli @netlify/ci-doctor
+
+      - name: Run Netlify CI Doctor
+        # This step will analyse your project for common configuration errors and output helpful logs.
+        env:
+          CI_PROJECT_DIR: ${{ github.workspace }}
+        run: ci-doctor --scan-all
+
+      - name: Trigger manual Netlify deploy (auto-retry)
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          if [ -n $NETLIFY_AUTH_TOKEN ] && [ -n $NETLIFY_SITE_ID ]; then
+            echo Attempting manual deploy...
+            netlify deploy --dir=${{ github.workspace }}/dist --site=$NETLIFY_SITE_ID --prod --auth=$NETLIFY_AUTH_TOKEN
+          else
+            echo Skipping manual deploy: missing NETLIFY_AUTH_TOKEN or NETLIFY_SITE_ID
+          fi
