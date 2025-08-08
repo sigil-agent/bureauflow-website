@@ -1,0 +1,27 @@
+[#] Netlify configuration file for your project
+
+##
+# This file defines how Netlify builds and deploys your site.
+# Adjust the `command` and `publish` values to match your project’s framework.
+# For common JavaScript frameworks:
+#   - Vite/React/Vanilla: command = "npm run build" and publish = "dist" or "build"
+#   - Next.js (static export): command = "next build && next export" and publish = "out"
+#   - Gatsby: command = "gatsby build" and publish = "public"
+# If you aren’t running a build step (e.g. a simple HTML/CSS site), set `command = "echo \"No build necessary\""` and publish = ".".
+
+[build]
+  # Edit this to run your build. If your project has no build step, you can leave this as a simple echo.
+  command = "npm run build"
+
+  # The directory that Netlify should upload to its CDN. Update this to match your project’s output folder.
+  publish = "dist"
+
+  # Comment or remove the following line if you don’t need to store build logs.
+  environment = { NODE_VERSION = "18.20.2" }
+
+[context.production.environment]
+  # Specify the Node.js version Netlify should use during deploys. Make sure this matches your local version.
+  NODE_VERSION = "18.20.2"
+
+  # Uncomment and customise the following line if your build relies on specific environment variables. Replace `API_KEY` with your own names.
+  # REQUIRED_ENV_VARS = "API_KEY,ANOTHER_VAR"
