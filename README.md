@@ -1,32 +1,43 @@
-# Netlify Auto‑Fix Pack
+# Bureau Flow
 
-This pack contains a sample configuration that makes Netlify builds more resilient and easier to diagnose. It includes:
+## Overview
+Bureau Flow is an AI-driven consulting and IT outsourcing platform that specializes in strategic AI consulting, IT developer outsourcing, and custom AI-agent solutions. This project aims to provide a modern, responsive web interface that allows users to learn about our services, meet the team, and get in touch with us.
 
-- **`netlify.toml`** – The central configuration file that tells Netlify how to build and publish your site. Adjust the `command` and `publish` settings to match your framework, and set a specific `NODE_VERSION` to ensure consistent builds.
-- **`.github/workflows/netlify-auto-fix.yml`** – A GitHub Actions workflow that listens for failed Netlify deploys. If a deploy fails, it runs [Netlify CI Doctor](https://github.com/netlify/ci-docs) to surface detailed diagnostics and then optionally triggers a manual redeploy via the Netlify CLI. To enable the auto‑retry step, add `NETLIFY_AUTH_TOKEN` and `NETLIFY_SITE_ID` secrets to your repository.
+## Project Structure
+The project consists of the following key files and directories:
 
-## Usage
+- **.github/workflows/main.yml**: CI/CD pipeline configuration for automated deployment to Netlify.
+- **app.js**: JavaScript file that handles language switching functionality.
+- **de.json**: JSON file containing German translations for the website's text.
+- **en.json**: JSON file containing English translations for the website's text.
+- **index.html**: Main HTML document that structures the webpage.
+- **styles.css**: Custom CSS file that overrides Bootstrap styles for a unique look and feel.
 
-1. Copy the contents of this directory into the root of your project (the `.github/workflows` folder may need to be created if it doesn’t exist yet).
-2. Edit `netlify.toml`:
-   - **`build.command`** – Set this to the command that builds your project. For example, `npm run build` for a Vite or React app, `next build && next export` for Next.js static export, or `gatsby build` for Gatsby.
-   - **`build.publish`** – The folder Netlify should upload, e.g. `dist`, `build`, `out`, or `public` depending on your framework.
-   - **Environment variables** – Uncomment and list any variables your build requires under `[context.production.environment]`. Always set `NODE_VERSION` to match your local development environment.
-3. Commit and push the files to your repository. Netlify will automatically pick up `netlify.toml` on the next deploy.
-4. (Optional) To enable the auto‑retry workflow:
-   - Create two secrets in your GitHub repository settings:
-     - `NETLIFY_AUTH_TOKEN` – Create a personal access token in your Netlify account. See [the Netlify docs](https://docs.netlify.com/cli/get-started/#obtain-a-personal-access-token).
-     - `NETLIFY_SITE_ID` – Find your site ID in the Netlify dashboard under **Site settings → General → Site details**.
-   - After adding these secrets, the `netlify-auto-fix.yml` workflow will automatically attempt a manual deploy whenever a Netlify deploy triggered by GitHub Actions fails.
+## Setup Instructions
 
-## Customising further
+1. **Clone the Repository**
+   ```bash
+   git clone <repository-url>
+   cd bureau-flow
+   ```
 
-This pack uses sensible defaults, but you can customise it further:
+2. **Install Dependencies**
+   Ensure you have Node.js installed. Then, install the necessary packages:
+   ```bash
+   npm install
+   ```
 
-- **Multiple contexts** – Add `[context.deploy-preview]`, `[context.branch-deploy]`, or other contexts in `netlify.toml` to fine‑tune commands for different deploy types.
-- **Different Node versions** – Set `NODE_VERSION` to the same version used locally. Keeping Netlify in sync with your development environment prevents many runtime errors.
-- **Additional workflows** – Use the output of `ci-doctor` to identify missing dependencies or misconfigured imports. You can create separate GitHub Action jobs to run tests or lint your code before deploying.
+3. **Run the Development Server**
+   You can run a local server to preview the website:
+   ```bash
+   live-server
+   ```
 
-## Caveats
+4. **Deploying to Netlify**
+   The CI/CD pipeline is set up to automatically deploy the site to Netlify whenever changes are pushed to the `main` branch. Ensure that your Netlify credentials are set in the GitHub repository secrets.
 
-This pack doesn’t magically fix all build failures; instead, it gives you visibility into what’s wrong and retries deploys automatically when you provide Netlify credentials. You still need to ensure your project is set up correctly (e.g. correct build command, complete dependencies, case‑sensitive imports). See the comments in `netlify.toml` for guidance.
+## Contributing
+Contributions are welcome! Please fork the repository and submit a pull request for any changes or improvements.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for more details.

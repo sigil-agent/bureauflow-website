@@ -1,0 +1,51 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # This pipeline runs every time you push to the 'main' branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Matches your netlify.toml
+
+      - name: Install Linting & Link-Checking Tools
+        run: |
+          npm install -g live-server
+          npm install -g lychee-link-checker
+
+      - name: Run Code Linter
+        uses: super-linter/super-linter@v5
+        env:
+          VALIDATE_HTML: "true"
+          VALIDATE_CSS: "true"
+          VALIDATE_JAVASCRIPT: "true"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: main
+
+      - name: Check for Broken Links
+        run: |
+          # Start a local server in the background to serve files for the link checker
+          live-server --port=8080 &
+          # Wait for the server to initialize
+          sleep 5
+          # Run the link checker on all HTML files
+          lychee --verbose --base . --max-concurrency 5 --accept 200,429 "./**/*.html"
+
+      - name: Deploy to Netlify if all checks pass
+        uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: '.'
+          production-branch: main
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
