@@ -1,13 +1,33 @@
-name: CI/CD Pipeline
+name: CI/CD and AI Code Review
 
 on:
   push:
     branches:
-      - main  # This pipeline runs every time you push to the 'main' branch
+      - main
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
+  ai_code_review:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: AI Code Review
+        uses: reviewdog/action-openai@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }} # Required
+          reviewdog_flags: -filter-mode=diff_context -fail-on-error=true
+          level: info
+
   build-and-deploy:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
