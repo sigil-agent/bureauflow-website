@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bureau Flow – AI-driven Consulting & IT Outsourcing</title>
   <link rel="stylesheet" href="styles.css">
@@ -14,74 +14,99 @@
       <a href="#contact" class="btn">Contact us</a>
     </div>
   </header>
-  <section id="services" class="section">
-    <div class="container">
-      <h2>What we do</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Strategic AI Consulting</h3>
-          <p>We help your organisation plan and implement AI initiatives, aligning technology with real business goals.</p>
-        </div>
-        <div class="card">
-          <h3>IT Developer Outsourcing</h3>
-          <p>Access our network of skilled developers to build and maintain your AI projects quickly and reliably.</p>
-        </div>
-        <div class="card">
-          <h3>AI‑Agent Solutions</h3>
-          <p>We design custom AI agents to automate workflows, reduce costs and free your team to focus on what matters.</p>
+
+  <main>
+    <section id="services" class="services">
+      <div class="container">
+        <h2>What we do</h2>
+        <div class="service-cards">
+          <div class="card">
+            <h3>Strategic AI Consulting</h3>
+            <p>We help your organisation plan and implement AI initiatives, aligning technology with real business goals.</p>
+          </div>
+          <div class="card">
+            <h3>IT Developer Outsourcing</h3>
+            <p>Access our network of skilled developers to build and maintain your AI projects quickly and reliably.</p>
+          </div>
+          <div class="card">
+            <h3>AI‑Agent Solutions</h3>
+            <p>We design custom AI agents to automate workflows, reduce costs and free your team to focus on what matters.</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-  <section id="team" class="section alt">
-    <div class="container">
-      <h2>Meet the Team</h2>
-      <div class="grid team">
-        <div class="team-card">
-          <h3>Tomas Marty</h3>
-          <p>CEO & AI Strategist</p>
-          <a href="https://www.linkedin.com/in/tomasmarty/" target="_blank">LinkedIn</a>
-        </div>
-        <div class="team-card">
-          <h3>Jafeltra</h3>
-          <p>Strategy Office</p>
-          <a href="https://www.linkedin.com/in/jafeltra/" target="_blank">LinkedIn</a>
-        </div>
-        <div class="team-card">
-          <h3>Juan Srs</h3>
-          <p>IT Coordinator & Candidate Sourcing</p>
-          <a href="https://www.linkedin.com/in/juansrs/" target="_blank">LinkedIn</a>
-        </div>
-        <div class="team-card">
-          <h3>Sales & Partnerships</h3>
-          <p>Business Development</p>
-          <!-- Add LinkedIn link here if applicable -->
+    </section>
+
+    <section id="team" class="team">
+      <div class="container">
+        <h2>Meet the Team</h2>
+        <div class="team-members">
+          <div class="member">
+            <h3>Tomas Marty</h3>
+            <p>CEO & AI Strategist</p>
+            <p><a href="https://www.linkedin.com/in/" target="_blank">LinkedIn</a></p>
+          </div>
+          <div class="member">
+            <h3>Jafeltra</h3>
+            <p>Strategy Office</p>
+            <p><a href="https://www.linkedin.com/in/" target="_blank">LinkedIn</a></p>
+          </div>
+          <div class="member">
+            <h3>Juan Srs</h3>
+            <p>IT Coordinator & Candidate Sourcing</p>
+            <p><a href="https://www.linkedin.com/in/" target="_blank">LinkedIn</a></p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-  <section id="contact" class="section">
-    <div class="container">
-      <h2>Contact Us</h2>
-      <p>Ready to transform your business with AI? Send us a message and let’s get started.</p>
-      <form action="mailto:info@bureauflow.de" method="post" enctype="text/plain" class="contact-form">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required>
+    </section>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+    <section id="blog" class="blog">
+      <div class="container">
+        <h2>From Our Blog</h2>
+        <p>Stay up to date with the latest posts from our team.</p>
+        <ul>
+          <li><a href="posts/welcome.md">Welcome to Bureau Flow</a></li>
+        </ul>
+      </div>
+    </section>
 
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="4" required></textarea>
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>Contact Us</h2>
+        <p>Ready to transform your business with AI? Send us a message and let’s get started.</p>
+        <form name="contact" method="POST" data-netlify="true" class="contact-form">
+          <input type="hidden" name="form-name" value="contact">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" required>
 
-        <button type="submit" class="btn-submit">Send</button>
-      </form>
-    </div>
-  </section>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required>
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+
+          <button type="submit" class="btn-submit">Send</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
   <footer>
     <div class="container">
-      <p>© 2025 Bureau Flow – All rights reserved.</p>
+      <p>&copy; 2025 Bureau Flow – All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Crisp Chat Widget -->
+  <script type="text/javascript">
+    window.$crisp = [];
+    window.CRISP_WEBSITE_ID = "YOUR_CRISP_WEBSITE_ID";
+    (function() {
+      var d = document;
+      var s = d.createElement("script");
+      s.src = "https://client.crisp.chat/l.js";
+      s.async = 1;
+      d.getElementsByTagName("head")[0].appendChild(s);
+    })();
+  </script>
 </body>
 </html>
